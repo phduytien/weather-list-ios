@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vKc-14-a3x">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,7 +8,23 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Weather List View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="fOu-1C-Gbb">
+            <objects>
+                <navigationController id="vKc-14-a3x" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MJO-lU-3pS">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="keT-TN-MAS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nCd-7m-LJV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2022" y="138"/>
+        </scene>
+        <!--Weather Forecast-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="WeatherListViewController" customModule="WeatherList" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,24 +32,74 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6ld-Cl-jHH">
-                                <rect key="frame" x="9" y="44" width="396" height="809"/>
+                            <searchBar contentMode="redraw" placeholder="Please input search city" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZn-rl-d0u">
+                                <rect key="frame" x="0.0" y="88" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="HFs-rc-WlI"/>
+                                </connections>
+                            </searchBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please input number of days" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ynp-rh-Irb">
+                                <rect key="frame" x="8" y="152" width="398" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="5Tk-q7-OeW"/>
+                                </connections>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vl7-7f-LBe">
+                                <rect key="frame" x="0.0" y="257" width="414" height="639"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Kqn-ot-81G">
+                                <rect key="frame" x="8" y="218" width="398" height="32"/>
+                                <segments>
+                                    <segment title="Kelvin"/>
+                                    <segment title="Celsius"/>
+                                    <segment title="Fahrenheit"/>
+                                </segments>
+                                <connections>
+                                    <action selector="temperatureUnitValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="lOb-VG-2zz"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperature Unit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6v-oT-LSQ">
+                                <rect key="frame" x="8" y="194" width="105.5" height="16"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6ld-Cl-jHH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KYC-ur-P61"/>
-                            <constraint firstItem="6ld-Cl-jHH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="9" id="Pdd-N8-Ldq"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6ld-Cl-jHH" secondAttribute="trailing" constant="9" id="ch5-8v-Yo6"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6ld-Cl-jHH" secondAttribute="bottom" constant="9" id="pWZ-up-6pw"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Kqn-ot-81G" secondAttribute="trailing" constant="8" id="Adh-3f-e9J"/>
+                            <constraint firstItem="vl7-7f-LBe" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="CcK-IE-gDj"/>
+                            <constraint firstItem="ynp-rh-Irb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="ESj-vD-0Ev"/>
+                            <constraint firstItem="T6v-oT-LSQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="F3j-0T-974"/>
+                            <constraint firstItem="T6v-oT-LSQ" firstAttribute="top" secondItem="ynp-rh-Irb" secondAttribute="bottom" constant="8" id="Fa0-zU-YHa"/>
+                            <constraint firstAttribute="bottom" secondItem="vl7-7f-LBe" secondAttribute="bottom" id="HXB-hv-4aA"/>
+                            <constraint firstItem="kZn-rl-d0u" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Hy6-lz-iUa"/>
+                            <constraint firstItem="vl7-7f-LBe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="IZV-nz-Rbf"/>
+                            <constraint firstItem="kZn-rl-d0u" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Jp2-hA-aOS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="T6v-oT-LSQ" secondAttribute="trailing" symbolic="YES" id="PBc-JY-prA"/>
+                            <constraint firstItem="Kqn-ot-81G" firstAttribute="top" secondItem="T6v-oT-LSQ" secondAttribute="bottom" constant="8" id="Qt9-65-aTv"/>
+                            <constraint firstItem="kZn-rl-d0u" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SYw-V6-NYS"/>
+                            <constraint firstItem="vl7-7f-LBe" firstAttribute="top" secondItem="Kqn-ot-81G" secondAttribute="bottom" constant="8" id="Ynq-LY-3Jt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ynp-rh-Irb" secondAttribute="trailing" constant="8" id="ole-oJ-opH"/>
+                            <constraint firstItem="ynp-rh-Irb" firstAttribute="top" secondItem="kZn-rl-d0u" secondAttribute="bottom" constant="8" id="rQI-7V-aCt"/>
+                            <constraint firstItem="Kqn-ot-81G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="w0r-bl-zcS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Weather Forecast" id="1RC-ia-FP5"/>
+                    <connections>
+                        <outlet property="numberOfDaysTextField" destination="ynp-rh-Irb" id="BcH-xW-CYo"/>
+                        <outlet property="searchBar" destination="kZn-rl-d0u" id="BLA-wv-4mU"/>
+                        <outlet property="tableView" destination="vl7-7f-LBe" id="y9o-tC-wvR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133" y="139"/>
+            <point key="canvasLocation" x="-1139.1304347826087" y="137.94642857142856"/>
         </scene>
     </scenes>
 </document>
