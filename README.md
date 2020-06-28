@@ -81,9 +81,9 @@ The folder structure is the same in testing target
   - b. Scaling Text: Display size and font size: To change the size of items on your screen, adjust the display size or font size.
 - [x] 9. Entity relationship diagram for the database and solution diagrams for the components, infrastructure design if any
   - a. Caching mechanism diagram
-    <img src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/caching-mechanism-diagram.png" data-canonical-src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/caching-mechanism-diagram.png" width="300" height="251" />
+  - <img src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/caching-mechanism-diagram.png" data-canonical-src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/caching-mechanism-diagram.png" width="300" height="251" />
   - b. Error handling diagram
-    <img src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/error-handling.png" data-canonical-src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/error-handling.png" width="400" height="356" />
+  - <img src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/error-handling.png" data-canonical-src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/error-handling.png" width="400" height="356" />
 - [x] 10. Readme file includes:
   - a. Brief explanation for the software development principles, patterns & practices being applied
   - b. Brief explanation for the code folder structure and the key Java/Kotlin libraries and frameworks being used
