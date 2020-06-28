@@ -8,12 +8,12 @@
 
 import UIKit
 
-class WeatherListViewModel: NSObject {
+class WeatherListViewModel {
     
     weak var delegate: WeatherListViewDelegate?
     
-    private var apiRequest: ApiRequest?
-    private let weatherListCache = WeatherListCache.shared
+    var apiRequest: ApiRequest?
+    var weatherListCache = WeatherListCache.shared
     
     // MARK: - Initilize
     

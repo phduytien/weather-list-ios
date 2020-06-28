@@ -26,7 +26,7 @@ struct WeatherItemUIModel {
         // Average Temperature
         if let temperate = response.temperature {
             let max = temperate.max
-            let min = temperate.max
+            let min = temperate.min
             if let max = max, let min = min {
                 averageTemperature = (max + min) / 2.0
             } else if let max = max {

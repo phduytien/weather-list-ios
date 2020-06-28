@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Please input search city" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZn-rl-d0u">
+                            <searchBar contentMode="redraw" text="" placeholder="Search city (at least 3 characters)" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZn-rl-d0u">
                                 <rect key="frame" x="0.0" y="88" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>

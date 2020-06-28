@@ -29,7 +29,7 @@ enum Units: String {
         case .imperial:
             return "°F"
         default:
-            return "°K"
+            return "K"
         }
     }
 }

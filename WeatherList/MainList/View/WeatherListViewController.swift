@@ -22,7 +22,12 @@ class WeatherListViewController: UIViewController {
     private var currUnit: Units = .default
     private var weatherList: [WeatherItemUIModel] = [] {
         didSet {
-            tableView.reloadData()
+            if weatherList.count > 0 || (weatherList.count == 0 && currStatusCode == .notFound) {
+                tableView.isHidden = false
+                tableView.reloadData()
+            } else {
+                tableView.isHidden = true
+            }
         }
     }
     
@@ -37,14 +42,25 @@ class WeatherListViewController: UIViewController {
     // MARK: - Setup UIs
     
     private func setupUIs() {
-        // SearchBar text
+        // Setup custom font for larger text
+        // SearchBar
         let textFieldInsideUISearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = .callOut
-        // SearchBar placeholder
         let labelInsideUISearchBar = textFieldInsideUISearchBar?.value(forKey: "placeholderLabel") as? UILabel
         labelInsideUISearchBar?.font = .callOut
+        // Segmented Control
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.footnote], for: .normal)
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.footnote], for: .selected)
+        
+        // Setup VoiceOver
+        searchBar.accessibilityLabel = AccessibilityIds.cityNameSearchBar
+        numberOfDaysTextField.accessibilityLabel = AccessibilityIds.numberOfDayTextField
+        tableView.accessibilityLabel = AccessibilityIds.weatherListTableView
+        segmentControl.accessibilityLabel = AccessibilityIds.temperatureUnitSegmentedControl
+        
+        // Setup keyboard
+        searchBar.becomeFirstResponder()
+        tableView.isHidden = true
     }
     
     private func setupNavigationBar() {
@@ -182,7 +198,7 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if weatherList.isEmpty && currStatusCode == .notFound {
+        if weatherList.isEmpty && (currStatusCode == .notFound || !validateSearchConditions()) {
             return 1
         }
         return weatherList.count
@@ -193,6 +209,8 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
             var contentText: String?
             if currStatusCode == .notFound {
                 contentText = "No search city found"
+            } else if !validateSearchConditions() {
+                contentText = "Please input at least 3 characters"
             } else {
                 contentText = weatherList.safeElement(at: indexPath.row)?.weatherItemDescription(unit: currUnit)
             }
@@ -202,6 +220,7 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
                 paragraphStyle.lineSpacing = .spacingNormal
                 attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
                 cell.weatherItemLabel.attributedText = attributedString
+                cell.accessibilityLabel = contentText
             }
             return cell
         }
