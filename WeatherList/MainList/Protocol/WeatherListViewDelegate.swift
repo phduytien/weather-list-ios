@@ -7,5 +7,6 @@
 //
 
 protocol WeatherListViewDelegate: AnyObject {
-    
+    func didFetchWeatherListSucceed(_ list: [WeatherItemUIModel])
+    func didFetchWeatherListFailed(_ statusCode: HTTPResponseStatusCode?, errorMessage: String?)
 }

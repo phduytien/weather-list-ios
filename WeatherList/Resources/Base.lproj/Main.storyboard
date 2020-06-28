@@ -44,12 +44,46 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                 <connections>
+                                    <action selector="numberOfDayTFDidChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="rAo-BR-SHr"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="5Tk-q7-OeW"/>
                                 </connections>
                             </textField>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vl7-7f-LBe">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="vl7-7f-LBe">
                                 <rect key="frame" x="0.0" y="257" width="414" height="639"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="WeatherItemTableViewCell" id="gNY-SV-ZNM" customClass="WeatherItemTableViewCell" customModule="WeatherList" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="36"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gNY-SV-ZNM" id="UZM-IQ-QuJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjA-Wa-yR9">
+                                                    <rect key="frame" x="16" y="8" width="382" height="20"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="XjA-Wa-yR9" secondAttribute="bottom" constant="8" id="6BQ-wq-15t"/>
+                                                <constraint firstItem="XjA-Wa-yR9" firstAttribute="leading" secondItem="UZM-IQ-QuJ" secondAttribute="leading" constant="16" id="K0u-v0-8RM"/>
+                                                <constraint firstItem="XjA-Wa-yR9" firstAttribute="top" secondItem="UZM-IQ-QuJ" secondAttribute="top" constant="8" id="dsS-E2-0PY"/>
+                                                <constraint firstAttribute="trailing" secondItem="XjA-Wa-yR9" secondAttribute="trailing" constant="16" id="u61-CL-6hW"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <outlet property="weatherItemLabel" destination="XjA-Wa-yR9" id="tAU-fR-z9F"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="hj8-tT-gIw"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="1lK-as-hJZ"/>
+                                </connections>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Kqn-ot-81G">
                                 <rect key="frame" x="8" y="218" width="398" height="32"/>
@@ -94,6 +128,7 @@
                     <connections>
                         <outlet property="numberOfDaysTextField" destination="ynp-rh-Irb" id="BcH-xW-CYo"/>
                         <outlet property="searchBar" destination="kZn-rl-d0u" id="BLA-wv-4mU"/>
+                        <outlet property="segmentControl" destination="Kqn-ot-81G" id="9Ji-1v-Jj2"/>
                         <outlet property="tableView" destination="vl7-7f-LBe" id="y9o-tC-wvR"/>
                     </connections>
                 </viewController>

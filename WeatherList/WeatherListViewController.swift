@@ -15,8 +15,16 @@ class WeatherListViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var numberOfDaysTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
-    private lazy var viewModel = WeatherListViewModel()
+    private var currStatusCode: HTTPResponseStatusCode = .ok
+    private lazy var viewModel = WeatherListViewModel(delegate: self)
+    private var currUnit: Units = .default
+    private var weatherList: [WeatherItemUIModel] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     // MARK: - Life Cycle
     
@@ -29,7 +37,7 @@ class WeatherListViewController: UIViewController {
     // MARK: - Setup UIs
     
     private func setupUIs() {
-        
+
     }
     
     private func setupNavigationBar() {
@@ -47,8 +55,20 @@ class WeatherListViewController: UIViewController {
         
     }
     
+    @IBAction func numberOfDayTFDidChanged(_ sender: Any) {
+        executeFetchWeatherList()
+    }
+    
     @IBAction func temperatureUnitValueChanged(_ sender: Any) {
-        
+        switch segmentControl.selectedSegmentIndex {
+        case 1:
+            currUnit = .metric
+        case 2:
+            currUnit = .imperial
+        default:
+            currUnit = .default
+        }
+        executeFetchWeatherList()
     }
 }
 
@@ -56,32 +76,47 @@ class WeatherListViewController: UIViewController {
 private extension WeatherListViewController {
     
     @discardableResult
-    func validateSearchConditions() -> Bool {
+    func validateSearchConditions(isShowError: Bool = false) -> Bool {
         let searchBarText = searchBar.text?.trimmingCharacters(in: .whitespaces)
         guard let cityName = searchBarText, !cityName.isEmpty, cityName.count >= 3 else {
-            showErrorMessage(.invalidCity)
+            if isShowError {
+                showErrorMessage(.invalidCity)
+            } else {
+                weatherList.removeAll()
+            }
             return false
         }
         return true
     }
     
-    func showErrorMessage(_ error: ErrorType) {
+    func showErrorMessage(_ errorType: ErrorType) {
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        let alertController = UIAlertController(title: error.errorTitle,
-                                                message: error.errorMessage,
+        let alertController = UIAlertController(title: errorType.errorTitle,
+                                                message: errorType.errorMessage,
                                                 preferredStyle: .alert)
         
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
     }
+    
+    func executeFetchWeatherList() {
+        // If match validation conditons, continue requesting
+        guard validateSearchConditions() else {
+            return
+        }
+        // Create request
+        let request = WeatherListRequest(cityName: searchBar.text,
+                                         numberOfDays: numberOfDaysTextField.text,
+                                         unit: currUnit)
+        viewModel.fetchWeatherListWithRequest(request)
+    }
 }
 
 // MARK: - UISearchBarDelegate
-
 extension WeatherListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if validateSearchConditions() {
+        if validateSearchConditions(isShowError: true) {
             view.endEditing(true)
         }
     }
@@ -91,15 +126,76 @@ extension WeatherListViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        executeFetchWeatherList()
     }
 }
 
-// MARK: - UITextFieldDelegate
-
-extension WeatherListViewController: UITextFieldDelegate {
+// MARK: - WeatherListViewDelegate
+extension WeatherListViewController: WeatherListViewDelegate {
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
+    func didFetchWeatherListFailed(_ statusCode: HTTPResponseStatusCode?, errorMessage: String?) {
+        guard let statusCode = statusCode else {
+            return
+        }
+        switch statusCode {
+        case .noInternet:
+            showErrorMessage(.fetchingNoInternet)
+        case .badRequest:
+            showErrorMessage(.fetchingBadRequest)
+        case .unknown:
+            showErrorMessage(.fetchingUnknown)
+        default:
+            break
+        }
+        currStatusCode = statusCode
+        weatherList.removeAll()
+    }
+    
+    func didFetchWeatherListSucceed(_ list: [WeatherItemUIModel]) {
+        currStatusCode = .ok
+        weatherList = list
+    }
+}
+
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if weatherList.isEmpty && currStatusCode == .notFound {
+            return 1
+        }
+        return weatherList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: WeatherItemTableViewCell.identifier, for: indexPath) as? WeatherItemTableViewCell {
+            var contentText: String?
+            if currStatusCode == .notFound {
+                contentText = "No search city found"
+            } else {
+                contentText = weatherList.safeElement(at: indexPath.row)?.weatherItemDescription(unit: currUnit)
+            }
+            if let contentText = contentText {
+                let attributedString = NSMutableAttributedString(string: contentText)
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = .spacingNormal
+                attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+                cell.weatherItemLabel.attributedText = attributedString
+            }
+            return cell
+        }
+        return WeatherItemTableViewCell()
+    }
+}
+
+
+// MARK: - UIScrollViewDelegate
+extension WeatherListViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }

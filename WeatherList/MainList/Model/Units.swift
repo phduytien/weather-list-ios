@@ -1,5 +1,5 @@
 //
-//  FilterSearchModel.swift
+//  Units.swift
 //  WeatherList
 //
 //  Created by TienPham on 6/27/20.
@@ -32,9 +32,4 @@ enum Units: String {
             return "°K"
         }
     }
-}
-
-struct FilterSearchModel {
-    let numberOfDays: Int = 7
-    let unit: Units = .default
 }

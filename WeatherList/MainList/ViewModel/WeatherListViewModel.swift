@@ -10,23 +10,44 @@ import UIKit
 
 class WeatherListViewModel: NSObject {
     
-    let arrTemperatureUnits: [Units] = [.default, .metric, .imperial]
-    var arrNumOfDays: [String] {
-        var output: [String] = [String]()
-        for i in 1...17 {
-            if i == 1 {
-                output.append("\(i) day")
-            } else {
-                output.append("\(i) days")
-            }
-        }
-        return output
-    }
-    
     weak var delegate: WeatherListViewDelegate?
     
-}
-
-extension WeatherListViewModel: UISearchBarDelegate {
+    private var apiRequest: ApiRequest?
     
+    // MARK: - Initilize
+    
+    init(delegate: WeatherListViewDelegate) {
+        self.delegate = delegate
+    }
+    
+    // MARK: - Network Operation
+    
+    func fetchWeatherListWithRequest(_ request: WeatherListRequest) {
+        apiRequest = ApiRequest(baseURl: API.baseUrl, path: API.apiPath, query: request.query)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+            self.apiRequest?.execute(completion: { (response, statusCode, error) in
+                self.apiRequest = nil
+                if let weatherList = response?.items {
+                    let weatherListUIModel = weatherList.compactMap { WeatherItemUIModel($0) }
+                    DispatchQueue.main.async {
+                        self.delegate?.didFetchWeatherListSucceed(weatherListUIModel)
+                    }
+                } else  {
+                    DispatchQueue.main.async {
+                        self.delegate?.didFetchWeatherListFailed(statusCode, errorMessage: error?.localizedDescription)
+                    }
+                }
+            })
+        }
+    }
+    
+    func cancelRequest() {
+        apiRequest?.cancelRequest()
+        apiRequest = nil
+    }
+    
+    func isRequesting() -> Bool {
+        apiRequest?.isExecuting() ?? false
+    }
 }
