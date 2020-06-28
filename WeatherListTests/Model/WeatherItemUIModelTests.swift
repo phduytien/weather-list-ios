@@ -64,14 +64,14 @@ class WeatherItemUIModelTests: XCTestCase {
         XCTAssertNotNil(fullWeatherItem)
         weatherItemUIModel = WeatherItemUIModel(fullWeatherItem!)
         XCTAssertNotNil(weatherItemUIModel)
-        XCTAssertTrue(weatherItemUIModel!.weatherItemDescription(unit: .default) == "Date: Sun, 28 Jun 2020\nAverage Temperature: 26.995K\nPressure: 1005\nHumidity: 88%\nDescription: moderate rain")
+        XCTAssertTrue(weatherItemUIModel!.weatherItemDescription(unit: .default) == "Date: Sun, 28 Jun 2020\nAverage Temperature: 27.00K\nPressure: 1005\nHumidity: 88%\nDescription: moderate rain")
     }
     
     func testInitMissingDataModelFromResponseDesscription() {
         XCTAssertNotNil(fullWeatherItem)
         weatherItemUIModel = WeatherItemUIModel(missingWeatherItem!)
         XCTAssertNotNil(weatherItemUIModel)
-        XCTAssertTrue(weatherItemUIModel!.weatherItemDescription(unit: .default) == "Date: Sun, 28 Jun 2020\nAverage Temperature: 26.8K\nPressure: 1005\nHumidity: 88%")
+        XCTAssertTrue(weatherItemUIModel!.weatherItemDescription(unit: .default) == "Date: Sun, 28 Jun 2020\nAverage Temperature: 26.80K\nPressure: 1005\nHumidity: 88%")
     }
 }
 
