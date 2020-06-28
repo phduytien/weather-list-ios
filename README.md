@@ -77,8 +77,8 @@ The folder structure is the same in testing target
 - [x] 6. Exception handling
 - [x] 7. Caching handling
 - [x] 8. Accessibility for Disability Supports:
-- [x] a. VoiceOver:Useascreenreader.
-- [x] b. Scaling Text: Display size and font size: To change the size of items on your screen, adjust the display size or font size.
+  - a. Voice Over: Use a screen reader.
+  - b. Scaling Text: Display size and font size: To change the size of items on your screen, adjust the display size or font size.
 - [x] 9. Entity relationship diagram for the database and solution diagrams for the components, infrastructure design if any
   - a. Caching mechanism diagram
 <img src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/caching-mechanism-diagram.png" data-canonical-src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/caching-mechanism-diagram.png" width="300" height="251" />
