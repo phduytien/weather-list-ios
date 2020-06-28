@@ -67,8 +67,6 @@
 		614FDA6924A8873C004137FB /* WeatherListCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherListCache.swift; sourceTree = "<group>"; };
 		614FDA6C24A8982E004137FB /* AccessibilityIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIds.swift; sourceTree = "<group>"; };
 		614FDA6F24A89F09004137FB /* UnitsEnumModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsEnumModelTests.swift; sourceTree = "<group>"; };
-		614FDA7B24A8A124004137FB /* WeatherListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherListUITests.swift; sourceTree = "<group>"; };
-		614FDA7D24A8A124004137FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		614FDA8724A8A13A004137FB /* WeatherListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		614FDA9224A8A387004137FB /* WeatherItemUIModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherItemUIModelTests.swift; sourceTree = "<group>"; };
 		614FDA9524A8A3C7004137FB /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
@@ -152,15 +150,6 @@
 			path = Caching;
 			sourceTree = "<group>";
 		};
-		614FDA7A24A8A124004137FB /* WeatherListUITests */ = {
-			isa = PBXGroup;
-			children = (
-				614FDA7B24A8A124004137FB /* WeatherListUITests.swift */,
-				614FDA7D24A8A124004137FB /* Info.plist */,
-			);
-			path = WeatherListUITests;
-			sourceTree = "<group>";
-		};
 		614FDA9424A8A38D004137FB /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,7 +229,6 @@
 			children = (
 				618B2E0724A6ED180034E7D7 /* WeatherList */,
 				618B2E2124A6ED190034E7D7 /* WeatherListTests */,
-				614FDA7A24A8A124004137FB /* WeatherListUITests */,
 				618B2E0624A6ED180034E7D7 /* Products */,
 			);
 			sourceTree = "<group>";
