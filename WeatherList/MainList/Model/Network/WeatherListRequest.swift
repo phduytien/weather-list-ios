@@ -27,4 +27,18 @@ struct WeatherListRequest {
         }
         return queries.joined(separator: "&")
     }
+    
+    var storeQuery: String {
+        var queries: [String] = []
+        if let cityName = cityName, !StringHelper.isEmptyText(cityName) {
+            queries.append("q=\(cityName)")
+        }
+        if let numberOfDays = numberOfDays, !StringHelper.isEmptyText(numberOfDays), numberOfDays != "7" {
+            queries.append("cnt=\(numberOfDays)")
+        }
+        if let unit = unit, unit != .default {
+            queries.append("units=\(unit.rawValue)")
+        }
+        return queries.joined(separator: "&")
+    }
 }

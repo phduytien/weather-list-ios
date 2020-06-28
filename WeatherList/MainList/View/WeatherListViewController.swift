@@ -52,7 +52,16 @@ class WeatherListViewController: UIViewController {
     // MARK: - IBAction
     
     @objc private func resetAndRefresh() {
-        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            WeatherListCache.shared.empty()
+        })
+        let alertController = UIAlertController(title: "Reset Cache",
+                                                message: "Do you want to reset all cache?",
+                                                preferredStyle: .alert)
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     @IBAction func numberOfDayTFDidChanged(_ sender: Any) {
