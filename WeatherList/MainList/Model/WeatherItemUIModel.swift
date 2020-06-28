@@ -55,7 +55,7 @@ struct WeatherItemUIModel {
             desc.append("Date: \(formatter.string(from: date))")
         }
         if let averageTemperature = averageTemperature {
-            desc.append("Average Temperature: \(averageTemperature)\(unit.shortTemperatureUnit)")
+            desc.append(String(format: "Average Temperature: %.2f%@", averageTemperature, unit.shortTemperatureUnit))
         }
         if let pressure = pressure {
             desc.append("Pressure: \(pressure)")
