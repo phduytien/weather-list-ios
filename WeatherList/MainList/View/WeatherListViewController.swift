@@ -37,7 +37,14 @@ class WeatherListViewController: UIViewController {
     // MARK: - Setup UIs
     
     private func setupUIs() {
-
+        // SearchBar text
+        let textFieldInsideUISearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideUISearchBar?.font = .callOut
+        // SearchBar placeholder
+        let labelInsideUISearchBar = textFieldInsideUISearchBar?.value(forKey: "placeholderLabel") as? UILabel
+        labelInsideUISearchBar?.font = .callOut
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.footnote], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.footnote], for: .selected)
     }
     
     private func setupNavigationBar() {
@@ -91,7 +98,8 @@ private extension WeatherListViewController {
             if isShowError {
                 showErrorMessage(.invalidCity)
             } else {
-                weatherList.removeAll()
+                currStatusCode = .ok
+                weatherList = []
             }
             return false
         }
@@ -157,7 +165,7 @@ extension WeatherListViewController: WeatherListViewDelegate {
             break
         }
         currStatusCode = statusCode
-        weatherList.removeAll()
+        weatherList = []
     }
     
     func didFetchWeatherListSucceed(_ list: [WeatherItemUIModel]) {

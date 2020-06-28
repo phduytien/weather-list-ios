@@ -13,4 +13,6 @@ import UIKit
 extension UIFont {
     static let headline = UIFont.preferredFont(forTextStyle: .headline)
     static let body = UIFont.preferredFont(forTextStyle: .body)
+    static let footnote = UIFont.preferredFont(forTextStyle: .footnote)
+    static let callOut = UIFont.preferredFont(forTextStyle: .callout)
 }
