@@ -10,10 +10,12 @@ import UIKit
 
 class WeatherListViewModel {
     
+    // MARK: - Properties
+    
     weak var delegate: WeatherListViewDelegate?
     
-    var apiRequest: ApiRequest?
-    var weatherListCache = WeatherListCache.shared
+    private var apiRequest: ApiRequest?
+    private var weatherListCache = WeatherListCache.shared
     
     // MARK: - Initilize
     
@@ -31,6 +33,7 @@ class WeatherListViewModel {
         } else {
             print("Fetch new")
             apiRequest = ApiRequest(baseURl: API.baseUrl, path: API.apiPath, query: request.query)
+            // Execute request in background thread
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let self = self else { return }
                 self.apiRequest?.execute(completion: { (response, statusCode, error) in

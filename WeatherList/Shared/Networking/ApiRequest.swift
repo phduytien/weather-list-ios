@@ -12,9 +12,11 @@ class ApiRequest: BaseApiRequest {
 
     typealias ReceivedModel = WeatherListResponse
     
-    var baseURl: String
-    var path: String?
-    var query: String?
+    // MARK: - Private properties
+    
+    private var baseURl: String
+    private var path: String?
+    private var query: String?
     
     private var task: URLSessionDataTask?
     private var isRequesting: Bool = false
@@ -31,14 +33,19 @@ class ApiRequest: BaseApiRequest {
         return urlComponents.url
     }
     
+    // MARK: - Initialize
+    
     init(baseURl: String, path: String? = nil, query: String? = nil) {
         self.baseURl = baseURl
         self.path = path
         self.query = query
     }
     
+    // MARK: - Execute request
+    
     func execute(completion: @escaping ApiRequestCompletionType) {
         guard let url = url else { return }
+        // Check if internet connected or not
         guard NetworkManager.isConnectedToNetwork() else {
             completion(nil, .noInternet, nil)
             return
@@ -49,7 +56,9 @@ class ApiRequest: BaseApiRequest {
         // Is requesting
         isRequesting = true
         // Start requesting
-        task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let self = self else { return }
+            self.task = nil
             guard let dataResponse = data, error == nil else {
                 // No response data error
                 completion(nil, .unknown, error)
@@ -78,6 +87,7 @@ class ApiRequest: BaseApiRequest {
     func cancelRequest() {
         if let task = task {
             task.cancel()
+            self.task = nil
             isRequesting = false
         }
     }

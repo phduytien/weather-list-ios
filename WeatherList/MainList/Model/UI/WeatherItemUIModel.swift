@@ -10,11 +10,15 @@ import Foundation
 
 struct WeatherItemUIModel {
     
+    // MARK: - Properties
+    
     let date: Date?
     let averageTemperature: Double?
     let pressure: Int?
     let humidity: Int?
     let weatherDescription: String?
+    
+    // MARK: - Initialize
     
     init(_ response: WeatherItem) {
         // Date
@@ -46,6 +50,8 @@ struct WeatherItemUIModel {
         // Weather description
         weatherDescription = response.weather?.first?.weatherDescription
     }
+    
+    // MARK: - Public methods
     
     func weatherItemDescription(unit: Units) -> String? {
         var desc: [String] = []

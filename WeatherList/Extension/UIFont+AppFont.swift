@@ -9,7 +9,7 @@
 
 import UIKit
 
-// Extensions for defining system font
+// Extension for defining system font
 extension UIFont {
     static let headline = UIFont.preferredFont(forTextStyle: .headline)
     static let body = UIFont.preferredFont(forTextStyle: .body)

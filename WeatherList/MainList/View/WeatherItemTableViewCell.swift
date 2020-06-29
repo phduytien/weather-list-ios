@@ -11,7 +11,11 @@ import UIKit
 
 class WeatherItemTableViewCell: UITableViewCell {
     
+    // MARK: - Defined
+    
     static let identifier = "WeatherItemTableViewCell"
+    
+    // MARK: - IBOutlet
     
     @IBOutlet weak var weatherItemLabel: UILabel!
 }

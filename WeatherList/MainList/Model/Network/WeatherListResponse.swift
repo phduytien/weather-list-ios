@@ -10,6 +10,8 @@ import Foundation
 
 struct WeatherListResponse: Codable {
     
+    // MARK: - Properties
+    
     let statusCode: Int?
     let message: String?
     let items: [WeatherItem]?
@@ -22,12 +24,15 @@ struct WeatherListResponse: Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        // Convert status code from string to int
         statusCode = try Int(container.decode(String.self, forKey: .statusCode)) ?? 0
+        // Sometime items is empty when got error
         do {
             items = try container.decode([WeatherItem].self, forKey: .items)
         } catch DecodingError.keyNotFound {
             items = nil
         }
+        // Sometime message is Int or String type, sure make app not crash
         do {
             message = try String(container.decode(Double.self, forKey: .message))
         } catch DecodingError.typeMismatch {

@@ -8,20 +8,24 @@
 
 import UIKit
 
-class WeatherListViewController: UIViewController {
+final class WeatherListViewController: UIViewController {
     
-    // MARK: - Private UIs
+    // MARK: - Private IBOutlet
     
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var numberOfDaysTextField: UITextField!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet weak private var searchBar: UISearchBar!
+    @IBOutlet weak private var numberOfDaysTextField: UITextField!
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var segmentControl: UISegmentedControl!
+    
+    // MARK: - Private properties
     
     private var currStatusCode: HTTPResponseStatusCode = .ok
     private lazy var viewModel = WeatherListViewModel(delegate: self)
     private var currUnit: Units = .default
     private var weatherList: [WeatherItemUIModel] = [] {
         didSet {
+            // If weather lit has data or search city isn't found
+            // => Show tableview, else hide it
             if weatherList.count > 0 || (weatherList.count == 0 && currStatusCode == .notFound) {
                 tableView.isHidden = false
                 tableView.reloadData()
@@ -43,7 +47,7 @@ class WeatherListViewController: UIViewController {
     
     private func setupUIs() {
         // Setup custom font for larger text
-        // SearchBar
+        // Search Bar
         let textFieldInsideUISearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = .callOut
         let labelInsideUISearchBar = textFieldInsideUISearchBar?.value(forKey: "placeholderLabel") as? UILabel
@@ -52,7 +56,7 @@ class WeatherListViewController: UIViewController {
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.footnote], for: .normal)
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.footnote], for: .selected)
         
-        // Setup VoiceOver
+        // Setup VoiceOver by accessibilityLabel
         searchBar.accessibilityLabel = AccessibilityIds.cityNameSearchBar
         numberOfDaysTextField.accessibilityLabel = AccessibilityIds.numberOfDayTextField
         tableView.accessibilityLabel = AccessibilityIds.weatherListTableView
@@ -87,11 +91,11 @@ class WeatherListViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    @IBAction func numberOfDayTFDidChanged(_ sender: Any) {
+    @IBAction private func numberOfDayTFDidChanged(_ sender: Any) {
         executeFetchWeatherList()
     }
     
-    @IBAction func temperatureUnitValueChanged(_ sender: Any) {
+    @IBAction private func temperatureUnitValueChanged(_ sender: Any) {
         switch segmentControl.selectedSegmentIndex {
         case 1:
             currUnit = .metric
@@ -209,8 +213,6 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
             var contentText: String?
             if currStatusCode == .notFound {
                 contentText = "No search city found"
-            } else if !validateSearchConditions() {
-                contentText = "Please input at least 3 characters"
             } else {
                 contentText = weatherList.safeElement(at: indexPath.row)?.weatherItemDescription(unit: currUnit)
             }
@@ -218,7 +220,8 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
                 let attributedString = NSMutableAttributedString(string: contentText)
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.lineSpacing = .spacingNormal
-                attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+                attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle,
+                                              range: NSMakeRange(0, attributedString.length))
                 cell.weatherItemLabel.attributedText = attributedString
                 cell.accessibilityLabel = contentText
             }
