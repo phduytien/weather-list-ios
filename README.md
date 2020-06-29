@@ -17,9 +17,17 @@ text clearly.
 10. The application is able to support the disability to read out the text using VoiceOver
 controls.
 
-Weather List Main Screen
+*Weather List Main Screen*
 
 <img src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/app-main-screen.png" data-canonical-src="https://github.com/phduytien/weather-list-ios/blob/master/Diagrams/app-main-screen.png" width="300" height="650" />
+
+*UI Explaination*
+The Weather Forecast app main screen included 4 compoments
+1. Search Bar: For users input search city name, app will auto focus on search bar after app launch, users must input at least 3 characters to start searching, has display hint for users
+2. Text Field: For users input number of days will display weather forecast, this field can be empty (default display 7 days)
+3. Segmented Control: For users select temperature unit (Kelvin, Celsius or Fahrenheit), the default selection is Kelvin
+4. Table View: For displaying list of weather if data responsed
+Some dialogs for error handling and exception
 
 ## Explaination
 
